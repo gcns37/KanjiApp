@@ -59,6 +59,10 @@ button,input{font:inherit}button{border:0;cursor:pointer}
 .tip-card{padding:18px;margin-top:18px}.tip-card h3{font-size:16px;margin:0 0 9px}.tip-card p{font-size:13px;color:var(--muted);line-height:1.7;margin:0}
 .backup-buttons{display:none}
 .switch-box{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);padding:11px 15px;border-radius:10px;margin-bottom:18px;box-shadow:0 5px 18px #18375c0b}.switch{position:relative;width:48px;height:27px;display:inline-block}.switch input{display:none}.slider{position:absolute;inset:0;background:#b9c4d0;border-radius:20px;cursor:pointer}.slider:before{content:"";position:absolute;width:21px;height:21px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}.switch input:checked+.slider{background:var(--blue)}.switch input:checked+.slider:before{transform:translateX(21px)}
+
+.settings-main{max-width:850px}.settings-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:16px}.settings-card h2{font-size:18px;margin:0 0 12px}.settings-card p{color:var(--muted);font-size:14px;line-height:1.7;margin:0 0 14px}.settings-row{display:flex;align-items:center;justify-content:space-between;gap:16px}.settings-row strong{display:block;margin-bottom:5px}.settings-row p{margin:0}.settings-action{background:#18324f;color:#fff;padding:11px 15px;border-radius:9px;font-weight:700}.settings-danger{background:#b33}.settings-actions{display:flex;gap:10px;flex-wrap:wrap}.settings-status{margin:12px 0 0!important;font-size:13px!important;overflow-wrap:anywhere}
+@media(max-width:760px){.settings-main{padding:14px 12px}.settings-card{padding:16px}.settings-card h2{font-size:16px}.settings-card p,.settings-row p{font-size:13px}.settings-row{align-items:flex-start}.settings-actions>*{flex:1}}
+
 /* edit / study */
 .header{background:#fff;padding:17px 25px;border-bottom:1px solid var(--line);text-align:center}.header h1{margin:0;font-size:23px}.main{padding:25px;max-width:1200px;margin:auto}.topbar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;margin-bottom:18px}.title{font-size:23px;font-weight:800;text-align:center}.topbar button,.main button{padding:11px 16px;border-radius:9px;background:#18324f;color:#fff;font-weight:700}.sort-button{background:#34516f!important}.delete-file-button{background:#b33!important}.mistake-list,.question-editor{padding:20px}.mistake-header,.mistake-row{display:grid;grid-template-columns:1fr 180px;gap:15px;align-items:center}.mistake-header{padding:10px;border-bottom:2px solid var(--line);font-weight:800}.mistake-row{padding:10px;border-bottom:1px solid #edf1f6}.text-input{width:100%;padding:11px;border:1px solid #ccd7e3;border-radius:8px;outline:none;background:#fff}.text-input:focus{border-color:#5d9cf5;box-shadow:0 0 0 3px #1677f91a}.count-input{text-align:center}.add-button{margin-top:15px!important;background:#4e6681!important}.question-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #eee}.question-row input{width:100%;min-width:0}.delete-button{background:#b33!important;padding:10px 14px!important}
 .study-screen{min-height:100dvh}.study-main{min-height:calc(100dvh - 67px);display:flex;flex-direction:column;padding:20px;max-width:900px;margin:auto;width:100%}.study-question{padding:30px;text-align:center;min-height:180px;display:flex;flex-direction:column;justify-content:center}.study-label{font-size:14px;color:var(--muted);margin-bottom:12px}.study-problem{font-size:46px;font-weight:850;word-break:break-all}.answer-area{margin-top:18px;padding:18px}#writingCanvas{width:100%;height:270px;display:block;background:#fff;border:2px dashed #b9c6d5;border-radius:12px;touch-action:none;cursor:crosshair}.clear-button{margin-top:10px!important;background:#70839a!important;font-size:13px!important}.answer-display{display:none;text-align:center;font-size:44px;font-weight:850;min-height:120px;padding:20px 10px;align-items:center;justify-content:center;border-top:1px solid var(--line);margin-top:18px;overflow-wrap:anywhere}.study-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:15px}.study-buttons button{min-width:0!important}.answer-button{background:#3c526c!important}.learned-button{background:#188b4c!important}.progress{text-align:center;color:var(--muted);margin-top:10px}
@@ -80,7 +84,7 @@ button,input{font:inherit}button{border:0;cursor:pointer}
     <button class="active" onclick="goHome()"><span class="nav-icon">⌂</span>ホーム</button>
     <button onclick="createQuestion()"><span class="nav-icon">▣</span>問題を解く</button>
     <button onclick="createData()"><span class="nav-icon">▤</span>データ管理</button>
-    <button onclick="document.getElementById('learnedSwitch').focus()"><span class="nav-icon">⚙</span>設定</button>
+    <button onclick="openSettings()"><span class="nav-icon">⚙</span>設定</button>
   </nav>
   <div class="sidebar-help">ⓘ 使い方<br>問題を作って、毎日少しずつ学習しよう。</div>
 </aside>
@@ -141,6 +145,40 @@ button,input{font:inherit}button{border:0;cursor:pointer}
 <div id="questionRows"></div>
 <button class="add-button" onclick="addQuestionRow()">問題を追加</button>
 </section>
+</main>
+</div>
+
+<div id="settingsScreen" class="screen">
+<header class="header"><h1>設定</h1></header>
+<main class="main settings-main">
+  <div class="topbar">
+    <button onclick="goHome()">← ホームへ戻る</button>
+    <div class="title">アプリの設定</div>
+    <div></div>
+  </div>
+  <section class="settings-card">
+    <h2>学習設定</h2>
+    <div class="settings-row">
+      <div><strong>「覚えた」ボタン機能</strong><p>ONにすると、答えを表示したあと「覚えた」を押して学習記録をつけられます。</p></div>
+      <label class="switch"><input id="settingsLearnedSwitch" type="checkbox" onchange="toggleLearnedFeatureFromSettings()"><span class="slider"></span></label>
+    </div>
+  </section>
+  <section class="settings-card">
+    <h2>共有データ</h2>
+    <p>GitHubの data フォルダにあるJSONバックアップを読み込みます。インターネット接続が必要です。</p>
+    <button id="refreshGitHubButton" class="settings-action" onclick="refreshSharedData()">GitHubの共有データを更新</button>
+    <p id="githubSyncStatus" class="settings-status" aria-live="polite">共有データの更新状況はここに表示されます。</p>
+  </section>
+  <section class="settings-card">
+    <h2>学習記録</h2>
+    <p>問題や答えは残したまま、「覚えた」記録だけをすべて0回に戻します。</p>
+    <button class="settings-action settings-danger" onclick="resetAllLearnedRecords()">覚えた記録をすべてリセット</button>
+  </section>
+  <section class="settings-card">
+    <h2>データのバックアップ</h2>
+    <p>データを保存すると、アプリ内のデータをJSONファイルとしてダウンロードできます。別の端末に移すときにも使えます。</p>
+    <div class="settings-actions"><button class="settings-action" onclick="exportData()">データを保存</button><button class="settings-action" onclick="document.getElementById('importFile').click()">データを読み込む</button></div>
+  </section>
 </main>
 </div>
 
@@ -268,10 +306,35 @@ reader.readAsText(file,"UTF-8");
 }
 
 function hideScreens(){
-["dataEditScreen","questionEditScreen","studyScreen"].forEach(id=>document.getElementById(id).style.display="none");
+["dataEditScreen","questionEditScreen","studyScreen","settingsScreen"].forEach(id=>document.getElementById(id).style.display="none");
 document.getElementById("homeScreen").style.display="block";
 }
 function goHome(){saveData();currentDataIndex=null;currentQuestionIndex=null;hideScreens();displayDataFiles();displayQuestionFiles();}
+function openSettings(){
+  ["homeScreen","dataEditScreen","questionEditScreen","studyScreen"].forEach(id=>document.getElementById(id).style.display="none");
+  document.getElementById("settingsScreen").style.display="block";
+  document.getElementById("settingsLearnedSwitch").checked=!!appData.learnedFeature;
+}
+function toggleLearnedFeatureFromSettings(){
+  appData.learnedFeature=document.getElementById("settingsLearnedSwitch").checked;
+  document.getElementById("learnedSwitch").checked=appData.learnedFeature;
+  document.getElementById("settingsLearnedSwitch").checked=appData.learnedFeature;
+  document.getElementById("switchText").textContent=appData.learnedFeature?"ON":"OFF";
+  saveData();
+}
+async function refreshSharedData(){
+  const button=document.getElementById("refreshGitHubButton");
+  const status=document.getElementById("githubSyncStatus");
+  button.disabled=true;button.textContent="更新中…";status.textContent="GitHubから共有データを取得しています…";
+  try{
+    const bundles=await loadGitHubDataFiles();
+    if(!bundles.length){status.textContent="data フォルダに読み込めるJSONバックアップが見つかりませんでした。";return;}
+    await syncGitHubDataFiles();
+    displayDataFiles();displayQuestionFiles();updateDashboardStats();
+    status.textContent="共有データの更新を確認しました（JSONファイル数："+bundles.length+"）。";
+  }catch(e){status.textContent="更新できませんでした。インターネット接続とGitHubの data フォルダを確認してください。";}
+  finally{button.disabled=false;button.textContent="GitHubの共有データを更新";}
+}
 function createData(){
 const name=prompt("データ名を入力してください");
 if(!name)return;
@@ -385,7 +448,7 @@ if(!studyPool.length){alert("すべての対象問題を2回覚えました！")
 nextStudyQuestion();
 }
 function closeStudy(){document.getElementById("studyScreen").style.display="none";document.getElementById("homeScreen").style.display="block";displayDataFiles();displayQuestionFiles();}
-function toggleLearnedFeature(){appData.learnedFeature=document.getElementById("learnedSwitch").checked;document.getElementById("switchText").textContent=appData.learnedFeature?"ON":"OFF";saveData();}
+function toggleLearnedFeature(){appData.learnedFeature=document.getElementById("learnedSwitch").checked;document.getElementById("settingsLearnedSwitch").checked=appData.learnedFeature;document.getElementById("switchText").textContent=appData.learnedFeature?"ON":"OFF";saveData();}
 function updateDashboardStats(){
 const all=[];appData.questionFiles.forEach(f=>(f.questions||[]).forEach(q=>{if((q.problem||'').trim()&& (q.answer||'').trim())all.push(q);}));
 const learned=all.filter(q=>(q.learnedCount||0)>=2).length;
@@ -455,6 +518,7 @@ async function syncGitHubDataFiles(){
 async function init(){
   await syncGitHubDataFiles();
   document.getElementById("learnedSwitch").checked=appData.learnedFeature;
+  document.getElementById("settingsLearnedSwitch").checked=appData.learnedFeature;
   document.getElementById("switchText").textContent=appData.learnedFeature?"ON":"OFF";
   displayDataFiles();
   displayQuestionFiles();
