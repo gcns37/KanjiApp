@@ -120,7 +120,10 @@ button,input{font:inherit}button{border:0;cursor:pointer}
 <div class="topbar">
 <button onclick="goHome()">← ホームへ戻る</button>
 <div class="title" id="editDataName">データ編集</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
 <button class="sort-button" onclick="sortMistakes()">間違えた回数順</button>
+<button class="delete-file-button" onclick="deleteDataFile()">データを削除</button>
+</div>
 </div>
 <section class="mistake-list">
 <div class="mistake-header"><div>間違えた漢字</div><div>間違えた回数</div></div>
@@ -386,6 +389,15 @@ const row=document.createElement("div");row.className="mistake-row";
 const k=document.createElement("input");k.className="text-input";k.value=m.kanji;k.placeholder="例：漢";k.oninput=()=>{m.kanji=k.value;saveData();};
 const c=document.createElement("input");c.className="text-input count-input";c.type="number";c.min=0;c.value=m.count;c.oninput=()=>{m.count=Math.max(0,Number(c.value)||0);saveData();};row.append(k,c);list.appendChild(row);
 });
+}
+function deleteDataFile(){
+if(currentDataIndex===null || currentDataIndex<0 || !appData.dataFiles[currentDataIndex])return;
+const name=appData.dataFiles[currentDataIndex].name;
+if(!confirm("「"+name+"」を削除しますか？\nこのデータと登録されている漢字はすべて削除されます。この操作は元に戻せません。"))return;
+appData.dataFiles.splice(currentDataIndex,1);
+saveData();
+currentDataIndex=null;
+goHome();
 }
 function addMistake(){appData.dataFiles[currentDataIndex].mistakes.push({kanji:"",count:0});saveData();displayMistakes();}
 function sortMistakes(){appData.dataFiles[currentDataIndex].mistakes.sort((a,b)=>b.count-a.count);saveData();displayMistakes();}
